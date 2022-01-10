@@ -2,59 +2,97 @@
 
 \chapter{绪论}
 
-\section{引言}
+\section{研究背景及意义}
+CPU (Central Processing Unit) 是一台计算机最重要最核心的组成部分，CPU设计制造也一直是高精尖的技术领域。自2020年美国开始禁止向中国出口高端芯片以来，使得芯片成为了这两年的热点话题，我国更加注重处理器设计领域的发展，推出了一系列相关政策推动我国加快发展自己的芯片设计和制造产业。其中以龙芯为首的多家国内企业多年以来也一直不断地在相关领域内投入研发。
 
-\subsection{引用参考文献}
-在references.bib中添加参考文献对应的bibtex，使用$\backslash$cite\{\}引用论文的id，如引用参考文献\cite{barnes2009patchmatch}。
+目前市场上处理器大多都是x86和ARM架构，其中x86处理器主要是Intel和AMD公司占主流，主打产品是一些高性能计算机的处理器；ARM公司主要靠指令架构的授权来盈利，ARM架构的处理器广泛的使用在各种嵌入式产品和终端中，在现在万物互联的趋势下普及到生活的各个角落中。
 
-\subsection{插入图片}
-如图\ref{fig:figure1}所示，在文章中插入图片。使用$\backslash$begin\{figure\}插入图片，支持的格式有jpg、png、eps与pdf等，本例使用$\backslash$begin\{tabular\}插入三幅图像(一行三列)，如果只插入一副图像则不需使用$\backslash$begin\{tabular\}。
+而RISC-V的出现打破了这一局面，RISC-V是2010年始于美国加州大学伯克利分校的一款开源指令集架构，与大多数指令集相比，RISC-V指令集没有高昂的授权费用，任何人都可以使用RISC-V设计和制造芯片，而不用支付任何费用。这极大的降低了芯片的成本，因此RISC-V一经面世，就受到了业内的关注和支持，尤其是非常适合我国的国情，我国的许多企业都加入了RISC-V基金会，如图1.1所示，在RISC-V基金会的13位高级成员中，有11位都是中国企业
 
 \begin{figure}[htb]
 	\centering
 	\setlength\tabcolsep{3pt}  % 同一行中的图片间隔
 	\vspace{5pt} % 图片上部的空白，如果太小的话，图片顶部会与正文内容十分接近
-	\begin{tabular}{ccc}
-		\includegraphics[width=0.32\textwidth]{baboon.jpg} &
-		\includegraphics[width=0.32\textwidth]{lena.jpg} &
-		\includegraphics[width=0.32\textwidth]{parrot.jpg} \\
-		(a) 图1 & (b) 图2 & (c) 图3 \\[1ex]
-	\end{tabular}
-	\caption{图片示例}
+	\includegraphics[width=1\textwidth]{RISC-V_Foundation_Members.png}
+	\caption{RISC-V 基金会高级成员}
 	\label{fig:figure1}
 \end{figure}
 
-\subsection{插入公式}
-如公式\eqref{eq:equation1}所示，为公式示例：
-\begin{equation}
-	c = a + b
-	\label{eq:equation1}
-\end{equation}
+但是目前RISC-V主要还是用在一些功能比较简单的嵌入式芯片设计中，使用RISC-V设计的高性能处理器仍然较少，因此中科院计算所研发了一款开源的RISC-V高性能处理器香山，希望能够通过开源香山以及香山的开发流程，带动国内开发者的热情，促进处理器相关领域的发展
 
-\subsection{插入表格}
+而在一个高性能处理器架构里，分支预测是必不可少的一个部件。由于现代的处理器都在往更高的频率，更深的流水线发展，以期待获得更高的性能。更高的频率限制了每个流水级间逻辑门级的数量，更深的流水线则造成了更大的分支误预测惩罚。因此对分支预测的设计带来了更大的挑战，如何在要求的频率下实现预测算法，并且保证较高的分支预测准确率。
 
-如表格\ref{tb:table1}所示，为表格示例。可以通过"https://www.tablesgenerator.com/"以用户界面形式创建表格，并将表格转化为latex代码。
+要指出自己的研究为了解决什么问题
 
-\begin{table}[]
-	\caption{表格标题}
-	\label{tb:table1}
-	\centering
-	\begin{tabular}{|c|c|c|}
-		\hline
-		a   & b   & c   \\ \hline
-		1.1 & 1.2 & 1.3 \\ \hline
-		1.4 & 1.5 & 1.6 \\ \hline
-	\end{tabular}
-\end{table}
+\section{国内外研究现状}
+
+\subsection{RISC-V发展现状}
+
+\subsection{分支预测发展现状}
+
+
+% \subsection{引用参考文献}
+在references.bib中添加参考文献对应的bibtex，使用$\backslash$cite\{\}引用论文的id，如引用参考文献\cite{barnes2009patchmatch}。
+
+% \subsection{插入图片}
+% 如图\ref{fig:figure1}所示，在文章中插入图片。使用$\backslash$begin\{figure\}插入图片，支持的格式有jpg、png、eps与pdf等，本例使用$\backslash$begin\{tabular\}插入三幅图像(一行三列)，如果只插入一副图像则不需使用$\backslash$begin\{tabular\}。
+
+% \begin{figure}[htb]
+% 	\centering
+% 	\setlength\tabcolsep{3pt}  % 同一行中的图片间隔
+% 	\vspace{5pt} % 图片上部的空白，如果太小的话，图片顶部会与正文内容十分接近
+% 	\begin{tabular}{ccc}
+% 		\includegraphics[width=0.32\textwidth]{baboon.jpg} &
+% 		\includegraphics[width=0.32\textwidth]{lena.jpg} &
+% 		\includegraphics[width=0.32\textwidth]{parrot.jpg} \\
+% 		(a) 图1 & (b) 图2 & (c) 图3 \\[1ex]
+% 	\end{tabular}
+% 	\caption{图片示例}
+% 	\label{fig:figure1}
+% \end{figure}
+
+% \subsection{插入公式}
+% 如公式\eqref{eq:equation1}所示，为公式示例：
+% \begin{equation}
+% 	c = a + b
+% 	\label{eq:equation1}
+% \end{equation}
+
+% \subsection{插入表格}
+
+% 如表格\ref{tb:table1}所示，为表格示例。可以通过"https://www.tablesgenerator.com/"以用户界面形式创建表格，并将表格转化为latex代码。
+
+% \begin{table}[]
+% 	\caption{表格标题}
+% 	\label{tb:table1}
+% 	\centering
+% 	\begin{tabular}{|c|c|c|}
+% 		\hline
+% 		a   & b   & c   \\ \hline
+% 		1.1 & 1.2 & 1.3 \\ \hline
+% 		1.4 & 1.5 & 1.6 \\ \hline
+% 	\end{tabular}
+% \end{table}
 
 \section{本文思路及研究方法}
 
-本文思路及研究内容
+本文首先介绍了开源RISC-V高性能处理器在国内的研究意义，以及为什么选择使用RISC-V来设计处理器的原因，并对香山超标量乱序处理器整体的基本结构做了介绍。之后进一步介绍了其中分支预测的整体架构，并在此基础上从性能能和频率2个方面对其进行了优化。并使用Design Compiler进行时序评估，使用Verilator对设计进行行为级仿真，用于评估其改进结果
 
 \section{论文结构}
 
-论文结构
+本文分为以下几个章节，内容安排如下：
 
+第一章的主要内容是介绍了本课题的研究背景和意义，讨论了一些国内外的研究现状，简单介绍了香山处理器的整体架构，并对本文内容做了规划
 
+第二章的主要内容是介绍分支预测架构中的各个预测器及其设计实现细节
 
+第三章的主要内容是提出以FTB为主的限制分支预测宽度的分支预测改进策略
+
+第四章的主要内容是提出以FTQ为主的实现解耦前端取指单元的设计
+
+第五章的主要内容是介绍了针对改进分支预测性能做过的部分尝试及其细节
+
+第六章的主要内容是介绍评估测试设计所用到的环境，以及相关的评估指标，统计结果及其分析
+
+第七章的主要内容是对本文工作的一个总结，并指出目前仍然存在的一些问题，对之后的工作做出了展望
 
