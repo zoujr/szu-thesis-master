@@ -1,5 +1,5 @@
 % !Mode:: "TeX:UTF-8"
-\chapter{分支预测限制预测宽度的改进策略}
+\chapter{限制分支预测宽度的改进策略}
 
 本章首先介绍香山第一版架构的取指策略，为什么需要限制分支预测的宽度，过宽的分支预测宽度会对整体设计带来怎样的影响。之后介绍如何通过修改每拍取指的基本单位来限制同一次取指内容中分支指令和跳转指令上限。
 
@@ -25,19 +25,85 @@
     \label{fig:figure1}
 \end{figure}
 
-加入了压缩指令之后，如果以32Bytes为单位取指，每次取出来的数据中会有8到16条指令不等，最多的情况如图3.1(c)所示，即16条都是压缩指令的情况。因此为了能够覆盖到所有情况，香山第一版的分支预测设计中，所有的预测器，包括第一版中FTB的原型BTB (Branch Barget Buffer) 都是以16为宽度来设计的，也就是说每个预测器都有16个bank，每个bank对应32Bytes中所有有可能是一条分支的位置。
+加入了压缩指令之后，如果以32Byte为单位取指，每次取出来的数据中会有8到16条指令不等，最多的情况如图3.1(c)所示，即16条都是压缩指令的情况。因此为了能够覆盖到所有情况，香山第一版的分支预测设计中，所有的预测器，包括第一版中FTB的原型BTB (Branch Barget Buffer) 都是以16为宽度来设计的，也就是说每个预测器都有16个bank，每个bank对应32Bytes中所有有可能是一条分支的位置。
 
-这是一个巨大的开销，这种设计意味着所有的分支预测逻辑的复杂度和连线都会大大增加，尤其是在分支预测最终的时候，我们需要从所有的分支中选出一条最终预测跳转的分支，从16个备选项中选出目标跳转地址，这是一个4级的多选操作，而这个逻辑处于分支预测的很多路径上，是关键路径的一部分，因此降低分支预测宽度，能够减少分支预测的逻辑复杂度，减少最终选择需要的逻辑门数，最终达到优化时序，提高频率的效果。
+但是实际上真正在程序运行中一次取指有这么多条分支的情况非常少见，这种设计在一定程度上是冗余的，这种设计意味着所有的分支预测逻辑的复杂度和连线都会大大增加，尤其是在分支预测最终的时候，我们需要从所有的分支中选出一条最终预测跳转的分支，从16个备选项中选出目标跳转地址，这是一个4级的多选操作，而这个逻辑处于分支预测的很多路径上，是关键路径的一部分，因此降低分支预测宽度，能够减少分支预测的逻辑复杂度，减少最终选择需要的逻辑门数，最终达到优化时序，提高频率的效果。
 
 \section{Fetch Block的定义}
 
 为了降低分支预测宽度，我们需要限制每次取指所能包含的分支指令的最大数量，因为分支预测最终的宽度是以可能的最大分支数量为准的，例如上文提到的如果一次最多会有16条分支，那么分支预测宽度也必须为16，即使大部分时候并没有这么多分支。
-假设我们将分支预测的宽度限制为2，之前的取指是以32Bytes定长为单位取指的，而在一些分支指令密集的程序片段中，32Bytes大小的指令块中很大概率会出现超过2条分支，因此我们不能够继续以定长为取指的基本单位，我们需要定义一个新的基本单位，为这个单位添加一些约束条件，以此来限制每次取指的分支指令数量。
-我们定义了Fetch Block，
+假设我们将分支预测的宽度限制为2，之前的取指是以32Byte定长为单位取指的，而在一些分支指令密集的程序片段中，32Bytes大小的指令块中很大概率会出现超过2条分支，因此我们不能够继续以固定的大小作为取指的基本单位，我们需要定义一个新的基本单位，为这个单位添加一些约束条件，以此来限制每次取指的分支指令数量。
 
-\section{FTB的域设计和管理策略}
+我们定义了Fetch Block，这个概念是在Glenn的论文中提出的，每个Fetch Block都必须遵守以下的约束：
 
-投稿论文的主要内容
+\begin{enumerate}
+    \item 每个block的最大大小为32Byte
+    \item 当遇到第n+1条条件跳转指令 (branch) 时，无论block大小有没有32Byte，这个block都在第n+1条条件跳转指令之前截止
+    \item 当遇到无条件跳转指令 (jump) 时，无论block大小有没有32Byte或有没有达到n条条件跳转指令的上限，这个block都在这条jump指令后截止。
+\end{enumerate}
+
+通过以上的3条约束，我们就能够保证单个的Fetch Block中branch和jump指令数量的上限。
+
+而在此基础上，我们提出了一种改进策略，可以略微减少FTB表项的大小，节省一些面积。我们观察到，因为遇到第n+1条指令导致block截止时，其中存储jump的slot被闲置了；而遇到jump，且之前不足n条branch时，第n条branch的slot也被闲置了，而这两种情况非常常见，带来了空间的浪费。我们针对这种现象做出了改进，即令第n条branch与jump共用一个slot，这样一个block中最多可以同时有n条branch，或者同时有n-1条branch和1条jump。
+
+\section{FTB的数据结构设计}
+
+% 投稿论文的主要内容
+
+为了在硬件中实现以Fetch Block为表项的FTB，我们提出了一种FTB表项的数据结构，相关的属性以及作用在表\ref{tb:table1}中列出。通过这些属性，就能够清楚的描述一个Fetch Block的状态，以及其中含有的分支指令的相关信息。
+
+\begin{table}[]
+	\caption{FTB表项属性列表}
+	\label{tb:table1}
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		属性名   & 数据类型   & 含义及作用   \\ \hline
+		valid & Bool & 代表这个表项是否有效 \\ \hline
+		tag & UInt & Fetch Block起始地址的高位 \\ \hline
+		brSlots & Vec(FtbSlot) & 用来存储branch指令的信息 \\ \hline
+		tailSLot & FtbSlot & 用来存储branch/jump指令的信息 \\ \hline
+		pftAddr & UInt & \tabincell{c}{代表这个block最后一条指令的下一条指令的起始pc， \\ 存储低位，使用拼位计算} \\ \hline
+		carry & Bool & 代表拼位计算时高位要不要加1 \\ \hline
+		isCall & Bool & 如果block中有jump时，代表这条jump是否是call指令 \\ \hline
+		isRet & Bool & 如果block中有jump时，代表这条jump是否是ret指令 \\ \hline
+		isJalr & Bool & 如果block中有jump时，代表这条jump是否是jalr指令 \\ \hline
+		last\_may\_be\_rvi\_call & Bool & 最后一条指令可能是半条RVI Call指令 \\ \hline
+		always\_taken & Vec(Bool) & 这条指令是否总是跳转 \\ \hline
+	\end{tabular}
+\end{table}
+
+其中的brSLots和tailSlot是用来存储block中的branch和jump指令信息的，它们是同一种数据结构FtbSlot，FtbSlot的相关属性以及作用在表\ref{tb:table2}中列出。
+
+\begin{table}[]
+	\caption{FtbSlot属性列表}
+	\label{tb:table2}
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		属性名   & 数据类型   & 含义及作用   \\ \hline
+		valid & Bool & 这条branch/jump是否有效 \\ \hline
+		offset & UInt & 这条branch/jump在block中的offset \\ \hline
+		lower & UInt & \tabincell{c}{这条branch/jump的target的低位， \\ branch和jump的offset length是不同的} \\ \hline
+		tarStat & UInt & \tabincell{c}{这条branch/jump的高位是需要加1或者减1或者不变， \\ 0代表不变，1代表加1，2代表减1} \\ \hline
+		sharing & Bool & 这个slot现在存的是一个branch还是一个jump \\ \hline
+	\end{tabular}
+\end{table}
+
+一个Fetch Block的起始地址就是block中第一条指令的pc，而block的结束地址应该是block中最后一条指令的下一条指令的pc。这是由于指令分为4Byte的RVI指令和2Byte的RVC指令，所以如果存储block中最后一条指令，我们并不知道最后一条指令的长度是4Byte还是2Byte，就无法推断出这个Fetch Block后面的Fetch Block的起始地址，因此我们需要存储下一个顺序Fetch Block的起始地址，我们称为fallthrough address。而完整的fallthrough address可以通过起始地址和pftAddr (partial fallthrough address) 以及carry属性计算得到。由于一个Fetch Block最大的大小不超过32Byte，因此通常来说一个Fetch Block的起始地址和结束地址的高34位要么是相同的，要么结束地址的高34位是起始地址的高34位加1。因此我们没有必要存储完整的fallthrough address，我们只需要存储fallthrough address的低5位，以及它的高位是否需要由起始地址加1得到即可，在计算fallthrough address时只需要使用block起始地址的高34位+ carry，再与pftAddr拼接，即可得到39位的完整fallthrough address。
+
+而FtbSlot中的lower和tarStat类似于pftAddr和carry，不同之处在于分支指令的跳转距离不止32Byte，因此lower的位数等于指令码中用于计算偏移地址的offset字段的位数。同时由于分支指令既可以向前跳转，又可以向后跳转，因此分支指令的跳转目标地址高位有3种可能：与block的起始地址相同、起始地址加1、起始地址减1。所以tarStat需要2bit位宽，可以表示0、1、-1三种情况。需要计算某条分支的跳转目标地址时，也是将起始地址的高位加上tarStat，再与lower拼接得到完整的目标地址。
+
+isCall和isRet属性主要用于标记哪些分支需要使用RAS进行预测。isJalr用于标记哪些分支是间接跳转分支指令，需要使用ITTAGE预测器预测。
+
+always\_taken是对于一些固定跳转分支的优化，一条分支只有在至少一次跳转之后，才会被认作有效的分支加入FTB中，而一条刚加入FTB的分支我们会为它标记为always taken，之后无论预测器预测结果如何，都会预测这条分支是跳转的，如果这条分支之后有一次不跳转，always taken标志就会被消除。
+
+\section{FTB的管理策略}
+
+在第一版架构BTB设计中，每次有指令提交后，会在BTB中找到本身pc对应的表项，选择空闲的way写入，如果所有的way都已经被占用，就使用随机替换方式，替换已有的一个表项。而由于在第二版的架构中我们使用了以Fetch Block为基本单位的FTB，并且我们计划将其替换策略更改为plru算法，因此FTB的管理策略有较大的改动。
+
+在FTB的设计中，由于限制了每个Fetch Block中分支指令的最大数量，因此大部分时候一个block中的有效数据是小于32Byte的，这一定程度上会导致FTB的存储空间使用效率不高。所以，为了尽可能增大每个Fetch Block中有效指令的数量，将所有未跳转过的分支指令都看作普通的指令，只有跳转过的分支才会被记录到FTB中，这就导致了每个fetch block的大小，分支指令的分布情况，在程序执行过程中是动态改变的，因此需要有一个完善的策略，针对不同的情况对FTB中的表项进行维护。
+
 
 
 \section{本章小结}
