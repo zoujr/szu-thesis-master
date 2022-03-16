@@ -3,11 +3,11 @@
 \chapter{绪论}
 
 \section{研究背景及意义}
-CPU (Central Processing Unit) 是一台计算机最重要最核心的组成部分，也叫做中央处理器。处理器设计制造也一直是高精尖的技术领域。自2020年美国开始禁止向中国出口高端芯片以来，使得芯片成为了这两年的热点话题，我国更加注重处理器设计领域的发展，推出了一系列相关政策推动我国加快发展自己的芯片设计和制造产业。其中以龙芯为首的多家国内企业多年以来也一直不断地在相关领域内投入研发。
+CPU (Central Processing Unit) 是一台计算机最重要最核心的组成部分，也叫做中央处理器。在现代生活中，各种各样的服务器，电脑，手机，小型电子设备无处不在，已经成为了现代人生活的重要组成部分。同样是处理器，也能分为很多不同的类型，有用于服务器上的，执行大量复杂计算任务的高性能处理器，也有用于手机、路由器、蓝牙设备等对功耗有一定要求的低功耗芯片，用于图像渲染的GPU，专门针对深度学习，人工智能相关的计算进行了特定优化的AI处理器等等。处理器设计制造也一直是高精尖的技术领域。这部分的先进技术大部分掌握在美国手中。自2020年美国开始禁止向中国出口高端芯片以来，使得芯片成为了这两年的热点话题，也给国内的芯片行业敲响了警钟，我国更加注重处理器设计领域的发展，推出了一系列相关政策推动我国加快发展自己的芯片设计和制造产业。国内的多家企业和高校也都积极响应，开始重视自主可控的芯片设计开发以及相关技术人才的培养。例如龙芯杯和一生一芯计划，都旨在为我国培养高端的芯片设计人才。以龙芯为首的多家国内企业多年以来也一直不断地在相关领域内投入研发，到目前为止也有了不俗的成果。虽然还没能完全摆脱对国外芯片的依赖，但是国内芯片产业已经有逐渐崛起的趋势。
 
-目前市场上的处理器大多使用的是x86和ARM指令集架构，其中x86处理器主要是Intel和AMD这两家美国公司占主流，主打产品是一些高性能计算机的处理器；ARM公司主要靠指令架构的授权来盈利，ARM架构的处理器广泛的使用在各种嵌入式产品和终端中，在现在万物互联的趋势下普及到生活的各个角落中。这两个架构几乎垄断了处理器的市场，如果有一家企业想要设计制造一款处理器，无法避免的需要到x86或者ARM的指令集授权，支付一笔昂贵的费用，极大提高了芯片的成本。
+目前市场上的处理器大多使用的是x86和ARM指令集架构，其中x86的指令集架构掌握在Intel手中，x86架构的处理器主要是Intel和AMD这两家美国公司占主流，主打产品是一些高性能计算机的处理器。基本上所有的服务器和电脑上搭载的都是这些公司的CPU。处于高性能领域的垄断地位。；ARM指令集架构掌握在ARM公司手中，而ARM公司主要靠指令架构的授权来盈利，而不自己设计制造芯片。ARM架构的处理器广泛的使用在各种嵌入式产品和终端中，在现在万物互联的趋势下普及到生活的各个角落中。这两个架构几乎垄断了各类高端处理器的市场，如果有一家企业想要设计制造一款处理器，无法避免的需要到x86或者ARM的指令集授权，支付一笔昂贵的费用，极大提高了芯片的成本。这样会极大的阻碍其他企业想要设计开发芯片的热情，也会影响整个产业的创新与进步。在这种局面下，急需一个更加友好开放的新鲜血液注入到市场中，才能为整个产业带来新的活力。
 
-而RISC-V的出现打破了这一局面，RISC-V是2010年始于美国加州大学伯克利分校的一款开源指令集架构，与大多数指令集相比，RISC-V指令集没有高昂的授权费用，任何人都可以使用RISC-V设计和制造芯片，而不用支付任何费用。这极大的降低了芯片的成本。同时由于这是一个年轻的指令集架构，没有x86和ARM由于需要兼容老旧的设计而带来的历史包袱，RISC-V使用了更先进的模块化设计理念。因此RISC-V一经面世，就受到了业内的关注和支持，尤其是在受到美国制裁的前提下，RISC-V非常适合我国的国情，我国的许多企业都加入了RISC-V基金会，在RISC-V基金会的19位高级成员中，有11位都是中国企业。
+而RISC-V的出现打破了这一局面，RISC-V是2010年始于美国加州大学伯克利分校的一款开源指令集架构\cite{riscv-overview}，与大多数指令集相比，RISC-V指令集没有高昂的授权费用，任何人都可以使用RISC-V设计和制造芯片，而不用支付任何费用。这极大的降低了芯片的成本。同时由于这是一个年轻的指令集架构，没有x86和ARM由于需要兼容老旧的设计而带来的历史包袱，例如现代的处理器基本都是64位，而x86和ARM为了兼容以前的老机器，在设计时还需要考虑在32位机器上的兼容性问题。RISC-V使用了更先进的模块化设计理念。因此RISC-V一经面世，就受到了业内的关注和支持，尤其是在受到美国制裁的前提下，RISC-V非常适合我国的国情，我国的许多企业都加入了RISC-V基金会，在RISC-V基金会的19位高级成员中，有11位都是中国企业，比例已经超过半数。
 
 % \begin{figure}[htb]
 % 	\centering
@@ -52,23 +52,37 @@ RISC-V是加州大学伯克利分校在2010年首次发布的一个开源指令�
     
     此外BOOM还实现了循环预测器和RAS (Return Address Stack)，循环预测器用于在某些嵌套循环指令中，预测循环体的循环跳转指令。RAS用于预测call和return指令。
 
+    \begin{figure}[htb]
+        \centering
+        \setlength\tabcolsep{3pt}  % 同一行中的图片间隔
+        \vspace{5pt} % 图片上部的空白，如果太小的话，图片顶部会与正文内容十分接近
+        \includegraphics[width=1\textwidth]{boom-frontend.jpg}
+        \caption{BOOM前端架构图\cite{boom-frontend}}
+        \label{fig:figure11}
+    \end{figure}
+
 	\item 玄铁910\cite{xuantie}使用了耦合的前端设计，即取指单元和分支预测流水级是耦合的，采用了两级的混合预测器的结构设计。在IP级就可以得到预译码信息，可以直接解析出一些直接跳转指令的跳转目标地址。
 
     玄铁910使用BHT(branch target table)来存储分支跳转历史，使用了一种类似BI-MODE\cite{bi-mode}机制的方向预测器。在IF级有一个16项全相联的L0 BTB (Branch Target Buffer)，在IP级有一个1K项组相联的L1 BTB。使用覆盖预测，当IP级的预测结果与IF级不同时需要将之前的预测结果纠正回来。这种设计和香山的第一版是类似的。
 
     此外玄铁910还有支持12级函数调用嵌套的RAS；循环加速器 (Loop Buffer)，用于将循环体中的指令缓存下来，关闭指令缓存来节省功耗；间接跳转预测器，用于预测间接跳转指令的目标地址。
 
-    \item 龙芯GS464E\cite{loongson}
+    \item 龙芯GS464E\cite{loongson}前端依然是耦合的设计，总共有3个流水级，也是多种预测器混合使用，在每周期最多可以处理4条分支指令。龙芯GS464E中实现了一个分支目标缓冲器 (BrBTB)，功能类似于BOOM的Micro BTB，都是为了在更准确的预测器结果出来之前，做一个简单的预测，尽可能提高流水线的连续性，不同之处在于龙芯GS464E的BrBTB是放在IF4级流水级的。除了BrBTB外，还有更加准确的预测器，实现了一套组合分支历史表 (BHTs)，包含3张16K项的表，分别是全局转移历史表 (global branch history table, GBHT)，局部转移历史表 (local branch history table, LBHT)和全局选择历史表 (global branch select table, GSEL)。此外还有RAS，和用于预测间接跳转指令的跳转目标缓存器 (jump branch target address cache, JBTAC)，和玄铁910类似的Loop Buffer。
+    
+    
+    \begin{figure}[htb]
+        \centering
+        \setlength\tabcolsep{3pt}  % 同一行中的图片间隔
+        \vspace{5pt} % 图片上部的空白，如果太小的话，图片顶部会与正文内容十分接近
+        \includegraphics[width=1\textwidth]{loongson-frontend.jpg}
+        \caption{龙芯GS464E前端架构图\cite{loongson}}
+        \label{fig:figure12}
+    \end{figure}
+    
+    \item Samsung Exynos\cite{samsung-exynos}使用了解耦的前端，主要的分支预测器使用的是改进的Scaled Hashed Perceptron (SHP)算法\cite{perceptrons,neural-branch,optimized-neural,strided-perceptron,merging-perceptron}，同样是混合预测，有一个小而快的micro-BTB (μBTB) 和一个本地历史散列感知器 (LHP)，主要的分支预测器是main-BTB (mBTB)和SHP。还实现了RAS，Level-2 BTB (L2BTB) 以及virtual address-based BTB (vBTB)。间接跳转预测器使用的是virtual program counter (VPC)\cite{vpc} 预测器。
 \end{itemize}
 
-\begin{figure}[htb]
-	\centering
-	\setlength\tabcolsep{3pt}  % 同一行中的图片间隔
-	\vspace{5pt} % 图片上部的空白，如果太小的话，图片顶部会与正文内容十分接近
-	\includegraphics[width=1\textwidth]{boom-frontend.jpg}
-	\caption{BOOM前端架构图\cite{boom-frontend}}
-	\label{fig:figure11}
-\end{figure}
+从以上几个处理器的分支预测设计可以看出，目前混合预测的设计是主流方案，一般倾向于一个小而快的预测器搭配上一个准但是慢的主要预测器，再加上一些针对特定指令的预测器，例如RAS和间接跳转预测器等。虽然在以上几个处理器设计中只有Samsung Exynos是解耦前端，但是根据与其他设计团队的交流来看，解耦前端确实是目前主流商用处理器都在使用的一个方案。
 
 % \subsection{引用参考文献}
 % 在references.bib中添加参考文献对应的bibtex，使用$\backslash$cite\{\}引用论文的id，如引用参考文献\cite{barnes2009patchmatch}。
