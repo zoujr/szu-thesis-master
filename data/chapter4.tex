@@ -37,7 +37,7 @@ FTQ本质上是一个队列，其中有4个指针，分别代表所有指令在�
 	\item commPtr：类似队头指针，指向最近一次被提交的block
 \end{enumerate}
 
-FTQ是一个循环队列，其中使用的指针都是FtqPtr类的实例，设计参考了《超标量处理器》中的设计\cite{superscala}。每个指针有flag和value 2个值，其中value代表这个指针指向的是队列中第几个元素，而flag代表的是这个指针在哪一次遍历，如图\ref{fig:figure22}所示，图\ref{fig:figure22}(a)中tail指向第4个元素，head指向第2个元素，tail和head都在同一次遍历中，falg都为0，灰色代表了队列中有效的项。而图\ref{fig:figure22}(b)中继续入队出队后，head指向了3，而tail已经完成了一次遍历，再次从0开始向后遍历到了1，此时head和tail不在同一次遍历中，head的falg为0，而tail的flag为1，此时队列中的有效项不在head和tail之间，而是相反的。图\ref{fig:figure22}(c)中当head也完成了一次遍历，回到0时，此时head和tail的flag再次变为相同，都为1，有效项也变回了head和tail之间的项。使用这种方法，就可以很好的解决循环队列中不知道head和tail在哪一轮遍历中的问题。除了FTQ以外，这种数据结构在香山的其他部件中也有广泛的应用。
+FTQ是一个循环队列，其中使用的指针都是FtqPtr类的实例，设计参考了《超标量处理器》中的设计\cite{superscala}。每个指针有flag和value 2个值，其中value代表这个指针指向的是队列中第几个元素，而flag代表的是这个指针在哪一次遍历，如图\ref{fig:figure42}所示，图\ref{fig:figure42}(a)中tail指向第4个元素，head指向第2个元素，tail和head都在同一次遍历中，falg都为0，灰色代表了队列中有效的项。而图\ref{fig:figure42}(b)中继续入队出队后，head指向了3，而tail已经完成了一次遍历，再次从0开始向后遍历到了1，此时head和tail不在同一次遍历中，head的falg为0，而tail的flag为1，此时队列中的有效项不在head和tail之间，而是相反的。图\ref{fig:figure42}(c)中当head也完成了一次遍历，回到0时，此时head和tail的flag再次变为相同，都为1，有效项也变回了head和tail之间的项。使用这种方法，就可以很好的解决循环队列中不知道head和tail在哪一轮遍历中的问题。除了FTQ以外，这种数据结构在香山的其他部件中也有广泛的应用。
 
 \begin{figure}[htb]
 	\centering
@@ -50,7 +50,7 @@ FTQ是一个循环队列，其中使用的指针都是FtqPtr类的实例，设�
 		(a) & (b) & (c) \\[1ex]
 	\end{tabular}
 	\caption{通过flag来表示head和tail是否在同一轮遍历中}
-	\label{fig:figure22}
+	\label{fig:figure42}
 \end{figure}
 
 在FTQ中的表项需要存储的信息分为几类，分别存在不同的寄存器堆中，大致分为以下几类：
@@ -137,6 +137,12 @@ FTQ收到redirect信号之后，会拿到取指单元或后端发回的出现了
 % FTQ还有一些支持指令预取的逻辑
 
 \section{分支历史管理策略}
+
+在分支预测中分支历史管理也是一个重要的功能
+
+在第二版的架构中除了保存完整的分支历史以外，还保存了折叠的分支历史，不同于第一版每次都是用完整的分支历史计算，这次的这叠分支历史是直接按照折叠的状态来维护的。
+
+第一版的分支历史是按照一个packet 1 bit的，第二版是每条分支1 bit
 
 \section{本章小结}
 
