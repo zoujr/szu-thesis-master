@@ -4,13 +4,19 @@
 
 \enabstract{
 
-此处是英文摘要，位于data/enabstract.tex 
+    In the field of modern high-performance processor design, the Branch Prediction Unit (BPU) is an essential part of a processor architecture, In order to pursue higher performance, processors are often designed in the direction of high frequency and deep pipeline, High frequency limits the complexity of logic per cycle, and deep pipelines incur higher penalties for branch misprediction. There are many studies on branch prediction algorithms, and events such as CBP (Championship Branch Prediction) promote the development of branch prediction. TAGE predictor is one of the state-of-the-art branch predictors currently openly designed, and has won the championship of CBP competitions many times. However, most of the papers on branch prediction research are based on simulator implementation, and there are more constraints and details to be considered in the real hardware design process.
+
+    Based on the first version of the Xiangshan RISC-V open source high-performance processor architecture, this thesis designs the branch prediction component in the second version of the architecture. Designed to decouple branch prediction and instruction fetch units for higher performance, while reducing critical path latency by reducing branch prediction width for higher frequencies. First, add an FTQ (Fetch Target Queue) to decouple the branch prediction from the instruction fetch unit, save the branch prediction result through the FTQ, and control the branch prediction recovery and update. In addition, by improving BTB (Branch Target Buffer), the basic unit of fetching is changed from the 32 Bytes aligned fixed-length instruction block of the first version to an variable-length instruction block with Fetch Block as the unit, so as to limit each fetch Refers to the number of branch instructions, and also modifies the base unit of all predictors to use Fetch Block prediction. 
+
+    Evaluate overall architecture performance by performing behavioral-level simulations with Verilator, and using checkpointing techniques to run snippets of SPEC 2006, with performance counters for statistics and analysis. Compared with the first version. 
+
+    In summary, this paper studies the branch prediction architecture of RISC-V high-performance processors, as well as the specific problems in the physical implementation process, and proposes and completes a specific implementation of branch prediction. Finally, it is evaluated by behavioral simulation. The experimental results show that compared with the first version of the architecture, the frequency can be increased from 1.8Ghz to 2GHz under the 14nm process, and the IPC of some SPEC 2006 test programs is increased by an average of 30\%. 
 
 }
 
-\enkeywords{keyworkds1;~~keyworkds2;~~keyworkds3}
+\enkeywords{RISC-V;~~high performance processor;~~CPU;~~decoupled frontend;~~branch prediction}
 
-\enpageheader{英文页眉，位于data/enabstract.tex}
+\enpageheader{Research on Branch Prediction Component Based on RISC-V High Performance Processor}
 
 % 使用makeenabstract生成英文摘要
 \makeenabstract
