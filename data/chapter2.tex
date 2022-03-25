@@ -125,7 +125,7 @@ u标志位用于在分配新的表项时来决定分配给哪一张表，u位在
 
 \section{SC设计介绍}
 
-SC (statistical corrector) 是TAGE预测器的一个组件，主要针对的是对某个方向只有很小的偏差，但是与历史路径相关性不强的分支\cite{tage-sc-l, isl-tage}。这种类型的分支有时TAGE无法准确预测。
+SC (statistical corrector) 是TAGE预测器的一个组件，如图\ref{fig:figure24}所示。主要针对的是对某个方向只有很小的偏差，但是与历史路径相关性不强的分支\cite{tage-sc-l, isl-tage}。这种类型的分支有时TAGE无法准确预测。
 
 SC也是由几张表组成的，每张表中的表项有2个6位的计数器，一个用于在TAGE预测跳转时使用，一个用于TAGE预测不跳转时使用。在预测时会根据带预测指令的pc和折叠历史进行哈希索引。将每张表索引出来的计数器的值相加，再加上TAGE预测的结果。然后使用最终的和与某个动态变动的阈值进行比较，再通过TAGE的预测结果进行一个二选一，得出最后的预测结果。
 
@@ -136,6 +136,15 @@ Threshold自身有一个5位的计数器，每次有指令更新时，如果SC�
 % 每次预测时SC会收到待预测指令的pc，分支历史，以及TAGE做出的预测结果。SC会索引每一张表，并取出每张表对应的两个饱和计数器，最后将它们相加，再加上TAGE的饱和计数器，得到一个totalSum。当TAGE命中且，totalSum相加大于0，且大于当前的threshold，或相加小于0，且相加小于负的threshold时，SC会做出预测，预测方向为所有SC表取出饱和计数器之和是否大于0.通过TAGE预测是否跳转来选择用0还是1。
 
 与TAGE类似，SC也有wrbypass的结构，用来保证在指令从预测到更新期间有其他的指令更新了相同的表项，保证了用于更新的计数器是最新的值。
+
+\begin{figure}[htb]
+	\centering
+	\setlength\tabcolsep{3pt}  % 同一行中的图片间隔
+	\vspace{5pt} % 图片上部的空白，如果太小的话，图片顶部会与正文内容十分接近
+	\includegraphics[width=1\textwidth]{sc.jpg}
+	\caption{TAGE-SC-L架构图\cite{tage-sc-l}}
+	\label{fig:figure24}
+\end{figure}
 
 % 还有那个算threshold的算法
 
