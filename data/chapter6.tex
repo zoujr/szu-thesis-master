@@ -17,7 +17,7 @@ Chisel (Constructing Hardware In a Scala Embedded Language) 是加州大学伯�
 	\centering
 	\setlength\tabcolsep{3pt}  % 同一行中的图片间隔
 	\vspace{5pt} % 图片上部的空白，如果太小的话，图片顶部会与正文内容十分接近
-	\includegraphics[width=0.7\textwidth]{diff.jpg}
+	\includegraphics[width=1\textwidth]{diff.jpg}
 	\caption{差分测试框架，NEMU和仿真程序同时运行，比较运行结果}
 	\label{fig:figure64}
 \end{figure}
@@ -106,7 +106,7 @@ Coremark程序比较小，运行一次需要的时间很短，但是为了能够
 	\label{fig:figure62}
 \end{figure}
 
-图\ref{fig:figure63}是在SRAM大小相同的情况下，运行占80\%权重的SPEC 2006部分测试程序片段后，第一版和第二版BTB和FTB的命中率对比，可以看出相比于BTB，FTB的命中率平均降低了3.1\%，这主要是由于未跳转分支指令在跳转前不会被存入FTB所带来的。但是由于第二版分支预测FTB使用比第一版BTB更大的SRAM，一定程度上消除了FTB命中率下降的问题，但是这个问题依然存在。
+图\ref{fig:figure63}是在SRAM大小相同的情况下，运行占80\%权重的SPEC 2006部分测试程序片段后，第一版和第二版BTB和FTB的命中率对比，可以看出相比于BTB，FTB的命中率平均降低了3.1\%，这主要是由于未跳转分支指令在跳转前不会被存入FTB所带来的。在第二版分支预测设计中，FTB使用了比第一版BTB更大的SRAM，一定程度上减轻了FTB命中率下降的问题，但是这个问题依然存在。
 
 % 3.37 2.86 2.06 2.27 4 4.05
 
@@ -134,6 +134,8 @@ Coremark程序比较小，运行一次需要的时间很短，但是为了能够
 % \end{table}
 
 频率方面是第一版和第二版架构种前端最主要的提升。香山第一版架构流片时使用的是28nm的制作工艺，主频能够达到1.3GHz，而用14nm的工艺库评估香山第一版，最高能够达到1，8GHz的主频。香山第二版架构流片使用的是14nm工艺，主频能够达到2GHz。如表\ref{tb:table3}所示。在第一版的基础上，通过重构分支预测部件，降低预测宽度，修改预测算法的实现等优化后，第二版架构的总体时序评估结果，在相同工艺库下，能够做到的主频相比于第一版提升了11\%。
+
+~\\
 
 \begin{table}[!h]
 	\caption{香山第一版和第二版频率对比}

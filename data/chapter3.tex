@@ -82,7 +82,7 @@
 	\end{tabular}
 \end{table}
 
-从表\ref{tb:table1}中可以看出，在FTB表项中，存储了Fetch Block的tag、分支指令的相关信息，以及计算Fetch Block结束地址的相关信息。其中的brSLots和tailSlot是用来存储block中的branch和jump指令信息的，它们是同一种数据结构FtbSlot，不同之处在于brSlots是一个有n个FtbSlot的列表，而tailSlot就是一个单独的FtbSlot。FtbSlot的相关属性以及作用在表\ref{tb:table2}中列出。
+从表\ref{tb:table1}中可以看出，在FTB表项中，存储了Fetch Block的tag，分支指令的相关信息，以及计算Fetch Block结束地址的相关信息。其中的brSLots和tailSlot是用来存储block中的branch和jump指令信息的，它们是同一种数据结构FtbSlot，不同之处在于brSlots是一个有n个FtbSlot的列表，而tailSlot就是一个单独的FtbSlot。FtbSlot的相关属性以及作用在表\ref{tb:table2}中列出。
 
 \begin{table}[]
 	\caption{FtbSlot属性列表}
