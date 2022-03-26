@@ -37,7 +37,7 @@ FTQ本质上是一个队列，其中有4个指针，分别代表所有指令在�
 	\item commPtr：类似队头指针，指向最近一次被提交的block
 \end{enumerate}
 
-FTQ是一个循环队列，其中使用的指针都是FtqPtr类的实例，设计参考了《超标量处理器》中的设计\cite{superscala}。每个指针有flag和value 2个值，其中value代表这个指针指向的是队列中第几个元素，而flag代表的是这个指针在哪一次遍历，如图\ref{fig:figure42}所示，图\ref{fig:figure42}(a)中tail指向第4个元素，head指向第2个元素，tail和head都在同一次遍历中，falg都为0，灰色代表了队列中有效的项。而图\ref{fig:figure42}(b)中继续入队出队后，head指向了3，而tail已经完成了一次遍历，再次从0开始向后遍历到了1，此时head和tail不在同一次遍历中，head的falg为0，而tail的flag为1，此时队列中的有效项不在head和tail之间，而是相反的。图\ref{fig:figure42}(c)中当head也完成了一次遍历，回到0时，此时head和tail的flag再次变为相同，都为1，有效项也变回了head和tail之间的项。使用这种方法，就可以很好的解决循环队列中不知道head和tail在哪一轮遍历中的问题。除了FTQ以外，这种数据结构在香山的其他部件中也有广泛的应用。
+FTQ是一个循环队列，其中使用的指针都是FtqPtr类的实例，设计参考了《超标量处理器》中的设计\cite{superscala}。每个指针有flag和value 2个值，其中value代表这个指针指向的是队列中第几个元素，而flag代表的是这个指针在哪一次遍历，如图\ref{fig:figure42}所示，图\ref{fig:figure42}(a)中tail指向第4个元素，head指向第2个元素，tail和head都在同一次遍历中，flag都为0，灰色代表了队列中有效的项。而图\ref{fig:figure42}(b)中继续入队出队后，head指向了3，而tail已经完成了一次遍历，再次从0开始向后遍历到了1，此时head和tail不在同一次遍历中，head的flag为0，而tail的flag为1，此时队列中的有效项不在head和tail之间，而是相反的。图\ref{fig:figure42}(c)中当head也完成了一次遍历，回到0时，此时head和tail的flag再次变为相同，都为1，有效项也变回了head和tail之间的项。使用这种方法，就可以很好的解决循环队列中不知道head和tail在哪一轮遍历中的问题。除了FTQ以外，这种数据结构在香山的其他部件中也有广泛的应用。
 
 \begin{figure}[htb]
 	\centering
@@ -58,7 +58,7 @@ FTQ是一个循环队列，其中使用的指针都是FtqPtr类的实例，设�
 \begin{itemize}
 	\item pc相关信息。主要存储block的起始地址，以及一些其他的信号位。在分支预测有新的取指请求，以及分支预测redirect时写入。
 	\item redirect分支预测重定向相关信息。分支预测在redirect恢复时需要的一些信息，例如RAS栈顶元素和栈顶指针，全局历史指针等。在分支预测最后一个流水级fire时写入
-	\item 分支预测meta信息。用于保存所有预测器在预测时产生的meta信息，是一个很长的UInt，将所有的meta信息都转成UInt拼接起来，拼接和拆分由Composer组件负责。在分支预测最后一个流水级fire时写入
+	\item 分支预测meta信息。用于保存所有预测器在预测时产生的meta信息，是一个很长的Unsigned Int，将所有的meta信息都转成Unsigned Int拼接起来，拼接和拆分由Composer组件负责。在分支预测最后一个流水级fire时写入
 	\item FTB表项。存放从分支预测传来的FTB表项。在分支预测最后一个流水级fire时写入，用于判断是否出现false\_hit，以及在指令提交时判断表项有无改变，产生新的表项。
 	\item 预译码信息。用来存储取指单元写回的预译码信息，用于在指令提交时生成新的FTB表项。
 \end{itemize}
