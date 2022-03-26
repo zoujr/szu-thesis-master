@@ -92,13 +92,13 @@ Coremark程序比较小，运行一次需要的时间很短，但是为了能够
 	\label{fig:figure61}
 \end{figure}
 
-图\ref{fig:figure64}和图\ref{fig:figure62}分别是运行占80\%权重的SPEC 2006部分测试程序片段后，第一版和第二版的分支预测准确率和MPKI对比。可以看出相比于第一版设计，第二版设计的平均分支预测准确率提高了0.6\%，平均MPKI降低了1.13。分支预测性能变化的主要因素，主要有在第二版中使用了更加准确的单条指令的分支历史，并且增加了FTB使用的SRAM的容量，会对分支预测准确率有一定的正面影响，但是为了优化逻辑电路的延时，提高最终的频率，因此分支预测依然在很多方面做了性能上的妥协，例如减少了TAGE预测表的数量，最终各种因素综合，得到了最终的性能变化。
+图\ref{fig:figure64}和图\ref{fig:figure62}分别是运行占80\%权重的SPEC 2006部分测试程序片段后，第一版和第二版的分支预测准确率和MPKI对比。可以看出相比于第一版设计，第二版设计的平均分支预测准确率提高了0.6\%，平均MPKI降低了1.13。分支预测性能变化的主要因素，主要有在第二版中使用了更加准确的单条指令的分支历史，并且增加了FTB使用的SRAM的容量，会对分支预测准确率有一定的正面影响，但是为了优化逻辑电路的延时，提高最终的频率，分支预测依然在很多方面做了性能上的妥协，例如减少了TAGE预测表的数量，各种因素综合，得到了最终的性能变化。
 
 \begin{figure}[htb]
 	\centering
 	\setlength\tabcolsep{3pt}  % 同一行中的图片间隔
 	\vspace{5pt} % 图片上部的空白，如果太小的话，图片顶部会与正文内容十分接近
-	\includegraphics[width=1\textwidth]{accuracy.png}
+	\includegraphics[width=0.9\textwidth]{accuracy.png}
 	\caption{SPEC2006 coverage 0.8 部分检查点分支预测准确率对比}
 	\label{fig:figure64}
 \end{figure}
@@ -110,7 +110,7 @@ Coremark程序比较小，运行一次需要的时间很短，但是为了能够
 	\centering
 	\setlength\tabcolsep{3pt}  % 同一行中的图片间隔
 	\vspace{5pt} % 图片上部的空白，如果太小的话，图片顶部会与正文内容十分接近
-	\includegraphics[width=1\textwidth]{mpki.png}
+	\includegraphics[width=0.9\textwidth]{mpki.png}
 	\caption{SPEC2006 coverage 0.8 部分检查点MPKI对比}
 	\label{fig:figure62}
 \end{figure}
