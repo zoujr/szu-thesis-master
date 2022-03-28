@@ -24,7 +24,7 @@ Chisel (Constructing Hardware In a Scala Embedded Language) 是加州大学伯�
 
 \subsection{Verilator}
 
-Verilator\cite{verilator}是一款开源免费的Verilog/System Verilog仿真器，可用于将Verilog代码转换成C++代码，在服务器上通过运行软件程序对硬件设计进行行为级仿真验证。相比于类似的另一种仿真工具VCS\cite{vcs}，由于Verilator仿真的电路只有0和1两个状态，不同于VCS有0、1、X、Z四个状态，因此在运行处理器这种大型的电路仿真时，Verilator仿真运行的速度会比VCS更快。但是毕竟处理器整体的RTL设计过于复杂，因此Verilator的仿真速度在跑SPEC CPU 2006这类大型测试程序时依然是一个瓶颈。相比于差分测试框架中纯软件的指令集模拟器NEMU来说，运行速度差了好几个数量级。
+Verilator\cite{verilator}是一款开源免费的Verilog/System Verilog仿真器，可用于将Verilog代码转换成C++代码，在服务器上通过运行软件程序对硬件设计进行行为级仿真验证。相比于类似的另一种仿真工具VCS\cite{vcs}，由于Verilator仿真的电路只有0和1两个状态，不同于VCS有0、1、X、Z四个状态，因此在运行处理器这种大型的电路仿真时，Verilator仿真运行的速度会比VCS更快。但是毕竟处理器整体的RTL设计过于复杂，因此Verilator的仿真速度在运行SPEC CPU 2006这类大型测试程序时依然是一个瓶颈。相比于差分测试框架中纯软件的指令集模拟器NEMU来说，运行速度差了好几个数量级。
 
 \subsection{Design Compiler}
 
@@ -47,7 +47,7 @@ Design Compiler是Synopsys公司开发的用于对电路进行综合以及静态
 	\item CRC（循环冗余校验）
 \end{enumerate}
 
-Coremark程序比较小，运行一次需要的时间很短，但是为了能够让处理器充分运行起来，例如给分支预测一些训练的时间，因此在跑Coremark时通常都会连续执行很多次迭代，例如迭代运行100次。通过运行Coremark，在初步的开发时，一些很容易触发的，比较明显的bug就能够很快的找到。并且由于运行一次的时间很短，因此修改bug时可以快速迭代。
+Coremark程序比较小，运行一次需要的时间很短，但是为了能够让处理器充分运行起来，例如给分支预测一些训练的时间，因此在运行Coremark时通常都会连续执行很多次迭代，例如迭代运行100次。通过运行Coremark，在初步的开发时，一些很容易触发的，比较明显的bug就能够很快的找到。并且由于运行一次的时间很短，因此修改bug时可以快速迭代。
 
 此外在需要更多的测试程序，想要测试更多复杂的情况时，通常会通过运行SPEC CPU 2006\cite{spec-2006}来测试电路性能。SPEC CPU 2006是SPEC (Standard Performance Evaluation Corporation) 组织推出的CPU系统评估软件，是业内比较权威的性能参考指标，SPEC CPU 2006中包含有SPECint 2006和SPECfp 2006两个基准，SPECint 2006中包含12个不同的基准测试，SPECfp 2006中包含19种不同的基准测试。SPEC CPU 2006和SPEC CPU 2017也是香山发布时公开的最主要的性能数据，大量的处理器相关研究都会以这两个测试的得分来评估性能。
 
