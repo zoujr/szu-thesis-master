@@ -9,7 +9,7 @@ CPU (Central Processing Unit) 是一台计算机最重要最核心的组成部�
     \centering
     \setlength\tabcolsep{3pt}  % 同一行中的图片间隔
     \vspace{5pt} % 图片上部的空白，如果太小的话，图片顶部会与正文内容十分接近
-    \includegraphics[width=1\textwidth]{processor-cate.jpg}
+    \includegraphics[width=0.7\textwidth]{processor-cate.jpg}
     \caption{不同领域的处理器分类\cite{cpu-overview}}
     \label{fig:figure14}
 \end{figure}
@@ -25,19 +25,53 @@ CPU (Central Processing Unit) 是一台计算机最重要最核心的组成部�
 %     \label{fig:figure13}
 % \end{figure}
 
+% \begin{table}[]
+% 	\caption{指令集架构分类}
+% 	\label{tb:table11}
+% 	\centering
+% 	\begin{tabular}{|c|c|}
+%         \hline
+%         \begin{tabular}[c]{@{}c@{}}CISC\\ 复杂指令集\end{tabular}                  & x86架构     \\ \hline
+%         \multirow{5}{*}{\begin{tabular}[c]{@{}c@{}}RISC\\ 精简指令集\end{tabular}} & RISC-V    \\ \cline{2-2} 
+%                                                                               & ARM       \\ \cline{2-2} 
+%                                                                               & POWER     \\ \cline{2-2} 
+%                                                                               & MIPS      \\ \cline{2-2} 
+%                                                                               & LoongArch \\ \hline
+%         \end{tabular}
+% \end{table}
+
+% \begin{table}[]
+% 	\caption{123123}
+% 	\label{tb:table123}
+% 	\centering
+%     \begin{tabular}{cccccc}
+%         \toprule
+%         序号 & 姓名 & 性别 & 年龄 & 身高/cm & 体重/kg \\
+%         \midrule
+%         1 & 张三 & M & 16 & 163 & 50 \\
+%         2 & 王红 & F & 15 & 159 & 47 \\
+%         3 & 李二 & M & 17 & 165 & 52 \\
+%         \bottomrule
+%     \end{tabular}
+% \end{table}
+
 \begin{table}[]
 	\caption{指令集架构分类}
 	\label{tb:table11}
 	\centering
-	\begin{tabular}{|c|c|}
-        \hline
-        \begin{tabular}[c]{@{}c@{}}CISC\\ 复杂指令集\end{tabular}                  & x86架构     \\ \hline
-        \multirow{5}{*}{\begin{tabular}[c]{@{}c@{}}RISC\\ 精简指令集\end{tabular}} & RISC-V    \\ \cline{2-2} 
-                                                                              & ARM       \\ \cline{2-2} 
-                                                                              & POWER     \\ \cline{2-2} 
-                                                                              & MIPS      \\ \cline{2-2} 
-                                                                              & LoongArch \\ \hline
-        \end{tabular}
+    \begin{tabular}{cc}
+        \toprule
+        指令集类型 & 指令集架构 \\
+        \midrule
+        \begin{tabular}[c]{@{}c@{}}CISC\\ 复杂指令集\end{tabular} & x86架构 \\
+        \midrule
+        \multirow{5}{*}{\begin{tabular}[c]{@{}c@{}}RISC\\ 精简指令集\end{tabular}} & RISC-V \\
+                         & ARM \\
+                         & POWER \\
+                         & MIPS \\
+                         & LoongArch \\
+        \bottomrule
+    \end{tabular}
 \end{table}
 
 而RISC-V的出现打破了这一局面，RISC-V是一种新兴的开源精简指令集架构,由加州大学伯克利分校在2010年首次发布\cite{riscv-overview}，与大多数指令集相比，RISC-V指令集没有高昂的授权费用，任何人都可以使用RISC-V设计和制造芯片，而不用支付任何费用。这极大的降低了芯片的成本。同时由于这是一个年轻的指令集架构，没有x86和ARM由于需要兼容老旧的设计而带来的历史包袱，例如现代的处理器大多为64位，而x86和ARM为了兼容以前的老机器，在设计时还需考虑在32位机器上的兼容性问题。且RISC-V使用了更先进的模块化设计理念。因此RISC-V一经面世，就受到了业内的关注和支持，尤其是在受到美国制裁的前提下，RISC-V非常适合我国的国情，我国的许多企业都加入了RISC-V基金会，在RISC-V基金会的19位高级成员中，有11位都是中国企业，比例已经超过半数。
