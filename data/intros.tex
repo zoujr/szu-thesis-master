@@ -117,7 +117,7 @@ RISC-V是加州大学伯克利分校在2010年首次发布的一个开源指令�
 
 \begin{itemize}[listparindent=2em]
 	\item BOOM (the Berkeley Out-
-    of-Order Machine)\cite{boom-spec, sonic-boom}使用了耦合的前端设计，总共有4级取指流水级，其中在F1，F2，F3会分别得到不同预测器的预测结果，并且当后面的预测结果和前面不同时，需要纠正前面的错误预测。在F1使用Micro BTB进行预测，F2使用BIM和BTB进行预测，F3使用TAGE进行预测。
+    of-Order Machine)\cite{boom-spec, sonic-boom}使用了耦合的前端设计，总共有4级取指流水级，如图\ref{fig:figure11}所示，其中在F1，F2，F3会分别得到不同预测器的预测结果，并且当后面的预测结果和前面不同时，需要纠正前面的错误预测。在F1使用Micro BTB进行预测，F2使用BIM和BTB进行预测，F3使用TAGE进行预测。
     
     此外BOOM还实现了循环预测器和RAS (Return Address Stack)，循环预测器用于在某些嵌套循环指令中，预测循环体的循环跳转指令。RAS用于预测call和return指令。
 
@@ -136,7 +136,7 @@ RISC-V是加州大学伯克利分校在2010年首次发布的一个开源指令�
 
     此外玄铁910还有支持12级函数调用嵌套的RAS；循环加速器 (Loop Buffer)，循环加速器用于将循环体中的指令缓存下来，关闭指令缓存来节省功耗；间接跳转预测器，用于预测间接跳转指令的目标地址。
 
-    \item 龙芯GS464E\cite{loongson}前端依然是耦合的设计，总共有3个流水级，也是多种预测器混合使用，分支预测机制在每个时钟周期最多可以处理4条分支指令, 但只有最后一条可以是预测为跳转的分支指令, 预测为跳转的分支指令的后续指令将在下一个时钟周期进行处理。龙芯GS464E中实现了一个分支目标缓冲器 (BrBTB)，功能类似于BOOM的Micro BTB，都是为了在更准确的预测器结果出来之前，做一个简单的预测，尽可能提高流水线的连续性，不同之处在于龙芯GS464E的BrBTB是放在IF4级流水级的。除了BrBTB外，还有更加准确的预测器，实现了一套组合分支历史表 (BHTs)，包含3张16K项的表，分别是全局转移历史表 (global branch history table, GBHT)，局部转移历史表 (local branch history table, LBHT)和全局选择历史表 (global branch select table, GSEL)。此外还有RAS，和用于预测间接跳转指令的跳转目标缓存器 (jump branch target address cache, JBTAC)，和玄铁910类似的循环加速器。
+    \item 龙芯GS464E\cite{loongson}前端依然是耦合的设计，总共有3个流水级，如图\ref{fig:figure12}所示，也是多种预测器混合使用，分支预测机制在每个时钟周期最多可以处理4条分支指令, 但只有最后一条可以是预测为跳转的分支指令, 预测为跳转的分支指令的后续指令将在下一个时钟周期进行处理。龙芯GS464E中实现了一个分支目标缓冲器 (BrBTB)，功能类似于BOOM的Micro BTB，都是为了在更准确的预测器结果出来之前，做一个简单的预测，尽可能提高流水线的连续性，不同之处在于龙芯GS464E的BrBTB是放在IF4级流水级的。除了BrBTB外，还有更加准确的预测器，实现了一套组合分支历史表 (BHTs)，包含3张16K项的表，分别是全局转移历史表 (global branch history table, GBHT)，局部转移历史表 (local branch history table, LBHT)和全局选择历史表 (global branch select table, GSEL)。此外还有RAS，和用于预测间接跳转指令的跳转目标缓存器 (jump branch target address cache, JBTAC)，和玄铁910类似的循环加速器。
     
     
     \begin{figure}[htb]

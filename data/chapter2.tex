@@ -70,7 +70,7 @@ RAS在分支指令出现误预测时需要恢复，否则可能会出现地址�
 
 \section{TAGE设计介绍}
 
-TAGE (TAgged GEometric history length branch predictor) 是由André提出的一种预测器\cite{tage}，曾经多次夺得过分支预测大赛 (CBP, Championship Branch Prediction) 的冠军，之后由许多研究者对其不断地优化和改进，是目前公开的分支预测性能最好的预测器之一。TAGE是一个使用全局历史索引的方向预测器，也就是说它只会用来预测分支是否跳转，而跳转目标地址需要由FTB、RAS或ITTAGE来提供。
+TAGE (TAgged GEometric history length branch predictor) 是由André提出的一种预测器\cite{tage}，曾经多次夺得过分支预测大赛 (CBP, Championship Branch Prediction) 的冠军，其结构如图\ref{fig:figure23}所示。之后由许多研究者对其不断地优化和改进，是目前公开的分支预测性能最好的预测器之一。TAGE是一个使用全局历史索引的方向预测器，也就是说它只会用来预测分支是否跳转，而跳转目标地址需要由FTB、RAS或ITTAGE来提供。
 
 
 \begin{figure}[htb]
